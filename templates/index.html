@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title%}首页{% endblock %}
+
+{% block main%}
+<p>  {{element_list[1]}}涨停板复盘</p>
+
+<p>  每日独家涨停板统计</p>
+<hr />
+今日涨停板 ({{ element_list[2] }})
+共({{ element_list[3] }})只股涨停
+
+<hr />
+bootstrap-table
+
+
+
+{% endblock %}
