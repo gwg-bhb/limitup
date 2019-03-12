@@ -89,7 +89,7 @@
     <p style="color:grey">__________________________________________________________________</p>
       <p contenteditable="true" style="border-style: solid; border-color: red">这是一段可编辑的文字</p>
       <p style="color:grey">__________________________________________________________________</p>
-
+        {%raw%}
       <div ng-app="app" ng-controller="Ctrl">
           <form editable-form name="tableform" onaftersave="saveTable()" oncancel="cancel()">
 
@@ -161,6 +161,7 @@
 
           </form>
       </div>
+      {%endraw%}
     <p style="color:grey">__________________________________________________________________</p>
     <br>
   </div>
