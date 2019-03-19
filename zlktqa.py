@@ -44,46 +44,6 @@ def login():
             return u'手机号码或者密码错误，请确认后再登录！'
 
 
-@app.route('/regist/', methods=['GET', 'POST'])
-def regist():
-    if request.method == 'GET':
-        return render_template('regist.html')
-    else:
-        telephone = request.form.get('telephone')
-        username = request.form.get('username')
-        password1 = request.form.get('password1')
-        password2 = request.form.get('password2')
-        user = User.query.filter(User.telephone == telephone).first()
-        print(user)
-        if user:
-            return '该手机号码已被注册，请更换手机号码！'
-        else:
-            # password1要和password2相等才可以
-            if password1 != password2:
-                return '两次密码不相等，请核对后再填写！'
-            else:
-                user = User(telephone=telephone, username=username, password=password1)
-                db.session.add(user)
-                db.session.commit()
-                # 如果注册成功，就让页面跳转到登录的页面
-                return redirect(url_for('login'))
-
-
-@app.route('/question/', methods=['GET', 'POST'])
-@login_required
-def question():
-    if request.method == 'GET':
-        return render_template('question.html')
-    else:
-        title = request.form.get('title')
-        content = request.form.get('content')
-        question = Question(title=title, content=content)
-        question.author = g.user
-        db.session.add(question)
-        db.session.commit()
-        return redirect(url_for('index'))
-
-
 @app.route('/logout')
 def logout():
     #先把user_id删掉
