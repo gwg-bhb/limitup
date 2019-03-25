@@ -33,8 +33,13 @@
     <script src="https://code.angularjs.org/1.5.8/angular-mocks.js"></script>
     <script type="text/javascript" src="../static/js/xeditable.js"></script>
     <script type="text/javascript" src="../static/js/angular_table.js"></script>
+    <!--<script type="text/javascript" src="../static/js/html2canvas.js"></script>-->
+    <!--<script type="text/javascript" src="../static/js/jsPdf.debug.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js"></script>
+    <script src="https://rawgit.com/eKoopmans/html2canvas/develop/dist/html2canvas.min.js"></script>
+    <!--<script type="text/javascript" src="../static/js/limit_up.js"></script>-->
 </head>
-<body style="height: 100%;">
+<body style="">
 <!-- Init Page Content Start -->
 
 <section class="outer-section">
@@ -53,39 +58,39 @@
     <p style="color:grey">__________________________________________________________________</p>
     <br>
     <p style="color:red; margin:0px 0;font-weight:bold;">今日涨停板({{element_list[1]}}) </p>
-    <p style="margin:12px 0; font-size:20px">共<font face="宋体" size="6" color="red">20</font>只股涨停 非一字板<font face="宋体" size="6" color="red">16</font>只 10:00前<font face="宋体" size="6" color="red">16</font>只次新+填权概念<font face="宋体" size="6" color="red">16</font>只涨停最多</p> 
+    <p style="margin:12px 0; font-size:20px">共<font face="宋体" size="6" color="red">{{element_list[2]}}</font>只股涨停 非一字板<font face="宋体" size="6" color="red">{{element_list[3]}}</font>只 10:00前<font face="宋体" size="6" color="red">{{element_list[4]}}</font>只 {{element_list[5]}}概念<font face="宋体" size="6" color="red">{{element_list[6]}}</font>只涨停最多</p>
     <p style="font-weight: bold">__________________________________________________________________</p>
     <br>
-    <p style="font-size:20px;margin:0px 0">昨日<font face="宋体" size="6" color="red">41</font>只股票涨停 非一字板<font face="宋体" size="6" color="red">35</font>只</p>
+    <p style="font-size:20px;margin:0px 0">昨日<font face="宋体" size="6" color="red">{{element_list[7]}}</font>只股票涨停 非一字板<font face="宋体" size="6" color="red">{{element_list[8]}}</font>只</p>
     <p style="margin:0px 0"> 以下统计均剔除新股等无量涨停不可能买入的个股</p>
     <p style="color:grey">__________________________________________________________________</p>
     <br>
-    <p style="color:red; margin:0px 0;font-weight:bold;">昨日涨停个股今日开盘表现(10月10日) </p>
-    <p style="margin:12px 0; font-size:20px">打板次日高开率<font face="宋体" size="6" color="red">46%</font>(高开股/总涨停股)</p> 
+    <p style="color:red; margin:0px 0;font-weight:bold;">昨日涨停个股今日开盘表现({{element_list[9]}}) </p>
+    <p style="margin:12px 0; font-size:20px">打板次日高开率<font face="宋体" size="6" color="red">{{element_list[10]}}</font>(高开股/总涨停股)</p>
     <p style="font-weight: bold">__________________________________________________________________</p>
     <br>
-    <p style="font-size:20px;margin:0px 0">一字开盘<font face="宋体" size="6" color="red">1</font>只</p>
-    <p style="font-size:20px;margin:0px 0">高开5%以上<font face="宋体" size="6" color="red">0</font>只</p>
-    <p style="font-size:20px;margin:0px 0">高开2%~5%之间<font face="宋体" size="6" color="red">4</font>只</p>
-    <p style="font-size:20px;margin:0px 0">高开0~2%之间<font face="宋体" size="6" color="red">11</font>只</p>
-    <p style="font-size:20px;margin:0px 0">低开0~-2%之间<font face="宋体" size="6" color="red">1</font>只</p>
-    <p style="font-size:20px;margin:0px 0">低开-2%以下<font face="宋体" size="6" color="red">17</font>只</p>
+    <p style="font-size:20px;margin:0px 0">一字开盘<font face="宋体" size="6" color="red">{{element_list[11]}}</font>只</p>
+    <p style="font-size:20px;margin:0px 0">高开5%以上<font face="宋体" size="6" color="red">{{element_list[12]}}</font>只</p>
+    <p style="font-size:20px;margin:0px 0">高开2%~5%之间<font face="宋体" size="6" color="red">{{element_list[13]}}</font>只</p>
+    <p style="font-size:20px;margin:0px 0">高开0~2%之间<font face="宋体" size="6" color="red">{{element_list[14]}}</font>只</p>
+    <p style="font-size:20px;margin:0px 0">低开0~-2%之间<font face="宋体" size="6" color="red">{{element_list[15]}}</font>只</p>
+    <p style="font-size:20px;margin:0px 0">低开-2%以下<font face="宋体" size="6" color="red">{{element_list[16]}}</font>只</p>
     <p style="color:grey">__________________________________________________________________</p>
     <br>
-    <p style="color:red; margin:0px 0;font-weight:bold;">昨日涨停个股今日收盘表现(10月10日) </p>
-    <p style="margin:12px 0; font-size:20px">打板次日成功率<font face="宋体" size="6" color="red">49%</font>(上涨股/总涨停股)</p> 
+    <p style="color:red; margin:0px 0;font-weight:bold;">昨日涨停个股今日收盘表现({{element_list[17]}}) </p>
+    <p style="margin:12px 0; font-size:20px">打板次日成功率<font face="宋体" size="6" color="red">{{element_list[18]}}</font>(上涨股/总涨停股)</p>
     <p style="font-weight: bold">__________________________________________________________________</p>
     <br>
-    <p style="font-size:20px;margin:0px 0">今日连板<font face="宋体" size="6" color="red">1</font>只</p>
-    <p style="font-size:20px;margin:0px 0">涨5%以上<font face="宋体" size="6" color="red">0</font>只</p>
-    <p style="font-size:20px;margin:0px 0">涨0%~5%之间<font face="宋体" size="6" color="red">4</font>只</p>
-    <p style="font-size:20px;margin:0px 0">下跌<font face="宋体" size="6" color="red">11</font>只</p>
-    <p style="font-size:20px;margin:0px 0">停牌<font face="宋体" size="6" color="red">1</font>只</p>
+    <p style="font-size:20px;margin:0px 0">今日连板<font face="宋体" size="6" color="red">{{element_list[19]}}</font>只</p>
+    <p style="font-size:20px;margin:0px 0">涨5%以上<font face="宋体" size="6" color="red">{{element_list[20]}}</font>只</p>
+    <p style="font-size:20px;margin:0px 0">涨0%~5%之间<font face="宋体" size="6" color="red">{{element_list[21]}}</font>只</p>
+    <p style="font-size:20px;margin:0px 0">下跌<font face="宋体" size="6" color="red">{{element_list[22]}}</font>只</p>
+    <p style="font-size:20px;margin:0px 0">停牌<font face="宋体" size="6" color="red">{{element_list[23]}}</font>只</p>
     <p style="color:grey">__________________________________________________________________</p>
     <br>
-    <p style="color:red; margin:0px 0;font-weight:bold;">昨日10：00前<font face="宋体" size="6" color="red">16</font>只自然涨停(10月10日) </p>
-    <p style="margin:12px 0; font-size:20px">打板次日高开率<font face="宋体" size="6" color="red">69%</font></p>
-    <p style="margin:12px 0; font-size:20px">打板次日成功率<font face="宋体" size="6" color="red">69%</font></p>
+    <p style="color:red; margin:0px 0;font-weight:bold;">昨日10：00前<font face="宋体" size="6" color="red">{{element_list[24]}}</font>只自然涨停({{element_list[25]}}) </p>
+    <p style="margin:12px 0; font-size:20px">打板次日高开率<font face="宋体" size="6" color="red">{{element_list[26]}}</font></p>
+    <p style="margin:12px 0; font-size:20px">打板次日成功率<font face="宋体" size="6" color="red">{{element_list[27]}}</font></p>
     <p style="color:grey">__________________________________________________________________</p>
       <p contenteditable="true" style="border-style: solid; border-color: red">这是一段可编辑的文字</p>
       <p style="color:grey">__________________________________________________________________</p>
@@ -163,6 +168,7 @@
       </div>
       {%endraw%}
     <p style="color:grey">__________________________________________________________________</p>
+    <button id="renderPdf">下载</button>
     <br>
   </div>
 </section>
@@ -173,6 +179,35 @@
 </section>
 
 <script>
+$(function(){
+        var downPdf = document.getElementById("renderPdf");
+        downPdf.onclick = function() {
+          html2canvas(document.body, {
+                background: "#FFFFFF",
+                allowTaint: true,
+              onrendered:function(canvas) {
+                  //返回图片URL，参数：图片格式和清晰度(0-1)
+                var imgData = canvas.toDataURL();
+                var canWidth = canvas.width;
+                var canHeight = canvas.height;
+                var pageData = canvas.toDataURL('image/jpeg', 1.0);
+
+
+
+                  console.log(canWidth, canHeight);
+                  //方向默认竖直，尺寸ponits，格式a4[595.28,841.89]
+                  var pdf = new jsPDF('', 'pt', [canWidth, canHeight]);
+                console.log(pdf);
+//                1683.78 x 2383.94
+
+                  //需要dataUrl格式
+                  pdf.addImage(pageData, 'JPEG', 0, 0, canvas.width, canvas.height );
+
+                  pdf.save('content.pdf');
+              }
+          })
+      }
+})
 </script>
 </body>
 </html>
