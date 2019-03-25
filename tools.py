@@ -80,7 +80,7 @@ def get_11(day):
     fenzi = 0
     # for code_info in pre_limit_up_info:
     for i, row in pre_limit_up_info.iterrows():
-        if is_gaokai(row, day) :
+        if is_gaokai(row, day):
             fenzi = fenzi+1
     gaokai_chance = round(fenzi/fenmu, 2)
     return gaokai_chance
@@ -142,7 +142,7 @@ def get_elements():
     elements_list = []
     now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     today = datetime.now().strftime('%Y-%m-%d')
-    today = '2019-03-15'
+    # today = '2019-03-15'
     pre_today = get_pro_trading_day(today)
     element1 = datetime.now().strftime('%m/%d')
     element2 = datetime.now().strftime('%m') + "月" + datetime.now().strftime('%d') + "日"
@@ -151,7 +151,7 @@ def get_elements():
     month = str(datetime.now().timetuple().tm_mon)
     day = str(datetime.now().timetuple().tm_mday)
     day = datetime.now().strftime('%Y-%m-%d')
-    day = '2019-03-15'
+    # day = '2019-03-15'
 
     open_shangzhang_num, close_shangzhang_num = shangzhang_rate(day)
     #
@@ -183,8 +183,6 @@ def get_elements():
     element_28 = get_28(today)
 
 
-    elements_list.append(month + '/' + day)
-    elements_list.append(month + '月' + day + '日')
     elements_list.extend([element_3,element_4,element_5,element_6,element_7,element_8,element_9,element_10,element_11,\
                           element_12,element_13,element_14,element_15,element_16,element_17,element_18,element_19,\
                           element_20,element_21,element_22,element_23,element_24,element_25,element_26,element_27,element_28])
@@ -214,15 +212,15 @@ def get_limit_up_detail(is_ten, day):
 
 def is_shangzhang(is_ten, code_info, day):
     code = code_info['code']
-    sql = "select ts_code,open,close from daily where ts_code = '%s' and trade_date = '%s';" %(code ,day)
+    sql = "select code,open,close from tick_daily where code = '%s' and trade_date = '%s';" %(code ,day)
     tmp = pd.read_sql(sql, mysql_engine)
     if 0 == is_ten:
-        if (code_info['close_price'] < tmp['close']):
+        if (code_info['close_price'] < tmp['close'][0]):
             return True
         else:
             return False
     else:
-        if (code_info['ten_price'] < tmp['close']):
+        if (code_info['ten_price'] < tmp['close'][0]):
             return True
         else:
             return False
@@ -236,16 +234,19 @@ def is_sucess(code_info, day):
 def is_gaokai_sucess(is_ten, row, day):
     sql = "select code,open_price,close_price from daily_result_detail where code = '%s' and date = '%s';" %(row['code'], day)
     tmp = pd.read_sql(sql, mysql_engine)
-    if (0 == is_ten):
-        if (row['close_price'] < tmp['open_price']):
-            return True
-        else:
-            return False
+    if tmp.empty:
+        return False
     else:
-        if (row['ten_price'] < tmp['open_price']):
-            return True
+        if (0 == is_ten):
+            if (row['close_price'] < tmp['open_price'][0]):
+                return True
+            else:
+                return False
         else:
-            return False
+            if (row['ten_price'] < tmp['open_price'][0]):
+                return True
+            else:
+                return False
 
 def get_lianxu_limitup(day):
     sql = "select *from daily_result_detail where date = '%s' and num_raiselimit > 1;" % (day)
@@ -306,7 +307,7 @@ def shangzhang_rate(day):
     ###  rate6 计算的是 今日连板的数量 也就是从daily_result_detail中选出大于2的
     rate6 = get_lianxu_limitup(day)
     rate1_num.extend([rate0, rate1, rate2, rate3, rate4, rate5])
-    rate2_num.extend([rate6, rate7, rate8, rate9])
+    rate2_num.extend([rate6, rate7, rate8, rate9, rate10])
     return rate1_num, rate2_num
 
 def get_pro_trading_day(TradingDay: str):
