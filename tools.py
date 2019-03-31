@@ -26,7 +26,7 @@ trading_day_df = df2.reset_index(drop=True)[['calendarDate']]
 
 def get_3(day):
     ###  获取今日涨停股票的数量
-    sql = "select count(*) as num from daily_result_detail where date = '%s';" % day
+    sql = "select count(*) as num from daily_result_detail where date = '%s' and close_is_raiselimit = 1;" % day
     num_df = pd.read_sql(sql, mysql_engine)
     print(num_df['num'][0])
     return num_df['num'][0]
@@ -62,7 +62,7 @@ def get_8(day):
 
 def get_9(day):
     #上一个交易日非一字数量（上一个交易日）
-    sql = "select count(*) as num from daily_result_detail where date = '%s' and close_is_one = 0;" % day
+    sql = "select count(*) as num from daily_result_detail where date = '%s' and close_is_one = 0 and close_is_raiselimit = 1;" % day
     num_df = pd.read_sql(sql, mysql_engine)
     print(num_df['num'][0])
     return num_df['num'][0]
@@ -142,7 +142,7 @@ def get_elements():
     elements_list = []
     now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     today = datetime.now().strftime('%Y-%m-%d')
-    # today = '2019-03-15'
+    today = '2019-03-28'
     pre_today = get_pro_trading_day(today)
     element1 = datetime.now().strftime('%m/%d')
     element2 = datetime.now().strftime('%m') + "月" + datetime.now().strftime('%d') + "日"
@@ -151,7 +151,7 @@ def get_elements():
     month = str(datetime.now().timetuple().tm_mon)
     day = str(datetime.now().timetuple().tm_mday)
     day = datetime.now().strftime('%Y-%m-%d')
-    # day = '2019-03-15'
+    day = '2019-03-28'
 
     open_shangzhang_num, close_shangzhang_num = shangzhang_rate(day)
     #
@@ -232,18 +232,18 @@ def is_sucess(code_info, day):
     return is_gaokai_sucess(0, code_info, day)
 
 def is_gaokai_sucess(is_ten, row, day):
-    sql = "select code,open_price,close_price from daily_result_detail where code = '%s' and date = '%s';" %(row['code'], day)
+    sql = "select code,open,close from tick_daily where code = '%s' and trade_date = '%s';" %(row['code'], day)
     tmp = pd.read_sql(sql, mysql_engine)
     if tmp.empty:
         return False
     else:
         if (0 == is_ten):
-            if (row['close_price'] < tmp['open_price'][0]):
+            if (row['close'] < tmp['open'][0]):
                 return True
             else:
                 return False
         else:
-            if (row['ten_price'] < tmp['open_price'][0]):
+            if (row['ten'] < tmp['open'][0]):
                 return True
             else:
                 return False
@@ -323,6 +323,5 @@ def time2str(tradeTime):
     return (hour+minute+second)[0:4]
 
 if __name__ == '__main__':
-    day = "2019-03-15"
-    # get_limit_up_detail(0, day)
+    day = '2019-03-28'
     get_11(day)
