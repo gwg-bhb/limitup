@@ -76,12 +76,13 @@ def get_11(day):
     #高开率=(昨天非一字涨停板在今天是高开的数量)/昨天非一字涨停板的数量
     pre_today = get_pro_trading_day(day)
     fenmu = get_9(pre_today)
-    pre_limit_up_info = get_limit_up_detail(0, pre_today)
+    pre_limit_up_info = get_limit_up_detail(0, pre_today, 0)
     fenzi = 0
     # for code_info in pre_limit_up_info:
     for i, row in pre_limit_up_info.iterrows():
         if is_gaokai(row, day):
             fenzi = fenzi+1
+            print(fenzi)
     gaokai_chance = round(fenzi/fenmu, 2)
     return gaokai_chance
 
@@ -200,10 +201,11 @@ def get_last_trading_day(year, month):
     df = trading_day_df[trading_day_df.calendarDate < str(next_month_1st_day)[0:10]].iloc[-1:]
     return pd.Timestamp(df.iloc[-1]['calendarDate'])    
 
-def get_limit_up_detail(is_ten, day):
+def get_limit_up_detail(is_ten, day, is_one):
     #获取当天涨停股票的内容,包括 股票代码code
-    if 0 == is_ten:
-        sql = "select code,close_price,ten_price from daily_result_detail where date = '%s' and close_is_raiselimit = 1;" % day
+    if 0 == is_ten and 0 == is_one:
+        #当天非一字涨停板的信息
+        sql = "select code,close_price,ten_price from daily_result_detail where date = '%s'  and close_is_one = 0 and close_is_raiselimit = 1;" % day
     else:
         sql = "select code,close_price,ten_price from daily_result_detail where date = '%s' and ten_is_raiselimit = 1;" % day
 
@@ -226,24 +228,25 @@ def is_shangzhang(is_ten, code_info, day):
             return False
 
 def is_gaokai(row, day):
-    return is_gaokai_sucess(1, row, day)
+    return is_gaokai_sucess(0, row, day)
 
 def is_sucess(code_info, day):
     return is_gaokai_sucess(0, code_info, day)
 
 def is_gaokai_sucess(is_ten, row, day):
-    sql = "select code,open,close from tick_daily where code = '%s' and trade_date = '%s';" %(row['code'], day)
+    sql = "select code,open,close from tick_daily where code = '%s' and trade_date = '%s' and trade_time > '09:30:00';" %(row['code'], day)
     tmp = pd.read_sql(sql, mysql_engine)
     if tmp.empty:
         return False
     else:
         if (0 == is_ten):
-            if (row['close'] < tmp['open'][0]):
+            if (row['close_price'] < tmp['open'][0]):
+                print((row['code']), (row['close_price']), (tmp['open'][0]))
                 return True
             else:
                 return False
         else:
-            if (row['ten'] < tmp['open'][0]):
+            if (row['ten_price'] < tmp['open'][0]):
                 return True
             else:
                 return False
