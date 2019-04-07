@@ -117,37 +117,35 @@
                   <tr ng-repeat="user in users | filter:filterUser">
                       <td>
                           <!-- editable username (text with validation) -->
-                <span editable-text="user.code" e-form="tableform">
-                  {{ user.code }}
-                </span>
+                        <span editable-text="user.code" e-form="tableform">
+                          {{ user.code }}
+                        </span>
                       </td>
                       <td>
                           <!-- editable username (text with validation) -->
-                <span editable-text="user.name" e-form="tableform" onbeforesave="checkName($data, user.id)">
-                  {{ showName(user) }}
-                </span>
+                        <span editable-text="user.name" e-form="tableform" onbeforesave="checkName($data, user.id)">
+                          {{ showName(user) }}
+                        </span>
                       </td>
                       <td>
-                          <!-- editable status (select-local) -->
-                <span editable-text="user.time" e-form="tableform">
-                  {{ showTime(user) }}
-                </span>
+                                  <!-- editable status (select-local) -->
+                        <span editable-text="user.time" e-form="tableform">
+                          {{ showTime(user) }}
+                        </span>
+                      </td>
+                      <td>
+                                  <!-- editable group (select-remote) -->
+                        <span editable-text="user.frequency" e-form="tableform" >
+                          {{ showFrequency(user) }}
+                        </span>
                       </td>
                       <td>
                           <!-- editable group (select-remote) -->
-                <span editable-text="user.frequency" e-form="tableform" >
-                  {{ showFrequency(user) }}
-                </span>
-                      </td>
-                      <td>
-                          <!-- editable group (select-remote) -->
-                <span editable-text="user.concept" e-form="tableform" >
-                  {{ showConcept(user) }}
-                </span>
+                        <span editable-text="user.concept" e-form="tableform" >
+                          {{ showConcept(user) }}
+                        </span>
                       </td>
                       <td><button type="button" ng-show="tableform.$visible" ng-click="deleteUser(user.id)" class="btn btn-danger pull-right">删除</button></td>
-                      <td><button type="button" ng-show="tableform.$visible" ng-click="generateData(user.id)" class="btn btn-danger pull-right">生成数据</button></td>
-
                   </tr>
 
               </table>
@@ -159,9 +157,13 @@
                   </button>
               </div>
               <div class="btn-form" ng-show="tableform.$visible">
-                  <button type="button" ng-disabled="tableform.$waiting" ng-click="addUser()" class="btn btn-default pull-right">add row</button>
                   <button type="submit" ng-disabled="tableform.$waiting" class="btn btn-primary">save</button>
                   <button type="button" ng-disabled="tableform.$waiting" ng-click="tableform.$cancel()" class="btn btn-default">cancel</button>
+                  <p>股票代码:<br>
+                  <input ng-model="TableCode" required>
+
+                  <button type="button" ng-disabled="tableform.$waiting" ng-click="generateInfo()" class="btn btn-default pull-right">生成数据</button>
+
               </div>
 
           </form>
