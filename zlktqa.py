@@ -5,8 +5,9 @@ import config
 from exts import db
 from models import DailyResult
 from decorator import login_required
-from tools import get_elements
+from tools import get_elements, getTodayCodeInfo
 import os
+from datetime import datetime
 
 from flask_uploads import UploadSet, IMAGES
 from flask_uploads import configure_uploads, patch_request_class
@@ -88,6 +89,15 @@ def index():
         # 获取上传图片的URL
         img_url = photos.url(filename)
     return render_template('limit_up.html', element_list=element_list, img_url=img_url)
+
+@app.route('/getTodayCodeInfo')
+def getTodayCodeInfo():
+    day = datetime.now().strftime("%Y-%m-%d")
+    code = request.args.get('code')
+    result = getTodayCodeInfo(day, code)
+    return result
+
+
 
 # before_request -> 视图函数 -> context_processor
 if __name__ == '__main__':
