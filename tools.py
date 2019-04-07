@@ -14,9 +14,10 @@ from config import mysql_engine
 
 
 from datetime import datetime, date, timedelta
+from decorator import timeit
 
 import tushare as ts
-import time
+import time, traceback
 
 
 result = ts.trade_cal()
@@ -24,6 +25,7 @@ df = result[(result.calendarDate >= '2018-01-01') & (result.isOpen == 1)]
 df2 = result[(result.calendarDate >= '2017-12-01') & (result.calendarDate <= '2018-01-01') & (result.isOpen == 1)] .iloc[-1:].append(df)
 trading_day_df = df2.reset_index(drop=True)[['calendarDate']]
 
+@timeit
 def get_3(day):
     ###  获取今日涨停股票的数量
     sql = "select count(*) as num from daily_result_detail where date = '%s' and close_is_raiselimit = 1;" % day
@@ -31,6 +33,7 @@ def get_3(day):
     print(num_df['num'][0])
     return num_df['num'][0]
 
+@timeit
 def get_4(day):
     #当天的非一字板，不包括 st
     sql = "select count(*) as num from daily_result_detail where date = '%s' and close_is_one = 0;" % day
@@ -38,6 +41,7 @@ def get_4(day):
     print(num_df['num'][0])
     return num_df['num'][0]
 
+@timeit
 def get_5(day):
     #十点前上板的非一字涨停板,不包括 st
     sql = "select count(*) as num from daily_result_detail where date = '%s' and ten_is_one = 0 and ten_is_raiselimit = 1;" % day
@@ -45,14 +49,17 @@ def get_5(day):
     print(num_df['num'][0])
     return num_df['num'][0]
 
+@timeit
 def get_6(day):
     #手动填写文字
     return "null"
 
+@timeit
 def get_7(day):
     #手动填写文字
     return "null"
 
+@timeit
 def get_8(day):
     #上一个的全部涨停板（上一个交易日）
     sql = "select count(*) as num from daily_result_detail where date = '%s';" % day
@@ -60,6 +67,7 @@ def get_8(day):
     print(num_df['num'][0])
     return num_df['num'][0]
 
+@timeit
 def get_9(day):
     #上一个交易日非一字数量（上一个交易日）
     sql = "select count(*) as num from daily_result_detail where date = '%s' and close_is_one = 0 and close_is_raiselimit = 1;" % day
@@ -67,11 +75,13 @@ def get_9(day):
     print(num_df['num'][0])
     return num_df['num'][0]
 
+@timeit
 def get_10(day):
     #上一个交易日
     pre_today = get_pro_trading_day(day)
     return pre_today
 
+@timeit
 def get_11(day):
     #高开率=(昨天非一字涨停板在今天是高开的数量)/昨天非一字涨停板的数量
     pre_today = get_pro_trading_day(day)
@@ -86,9 +96,11 @@ def get_11(day):
     gaokai_chance = round(fenzi/fenmu, 2)
     return gaokai_chance
 
+@timeit
 def get_18(day):
     return get_10(day)
 
+@timeit
 def get_19(day):
     #成功率=收盘价格上涨/昨日非一字板的数量
     pre_today = get_pro_trading_day(day)
@@ -103,12 +115,15 @@ def get_19(day):
     success_rate = round(fenzi/fenmu, 2)
     return success_rate
 
+@timeit
 def get_25(day):
     return get_5(day)
 
+@timeit
 def get_26(day):
     return get_10(day)
 
+@timeit
 def get_27(day):
     pre_today = get_pro_trading_day(day)
     fenmu = get_5(pre_today)
@@ -123,6 +138,7 @@ def get_27(day):
     gaokai_chance = round(fenzi/fenmu, 2)
     return gaokai_chance
 
+@timeit
 def get_28(day):
     #成功率=昨日10:00涨停的收盘价格上涨/昨日10:00之前非一字板的数量
     pre_today = get_pro_trading_day(day)
@@ -134,6 +150,7 @@ def get_28(day):
             fenzi = fenzi + 1
     success_rate = round(fenzi/fenmu, 2)
     return success_rate
+
 
 def get_elements():
     elements_list = []
@@ -269,6 +286,7 @@ def get_code_info(is_ten, code, day):
     tmp = pd.read_sql(sql, mysql_engine)
     return tmp
 
+@timeit
 def shangzhang_rate(day):
     #一字开盘,(-&, -2%),[-2%,0),[0,2%),[2%,5%),[5%,+$) 左闭右开的个数
     rate1_num = []
@@ -309,7 +327,7 @@ def shangzhang_rate(day):
             else:
                 rate9 = rate9 + 1
         except Exception as e:
-            print(e.__traceback__)
+            traceback.print_exc()
     ###  rate6 计算的是 今日连板的数量 也就是从daily_result_detail中选出大于2的
     rate6 = get_lianxu_limitup(day)
     rate1_num.extend([rate0, rate1, rate2, rate3, rate4, rate5])
@@ -330,5 +348,5 @@ def time2str(tradeTime):
 
 if __name__ == '__main__':
     day = '2019-04-04'
-    get_28(day)
+    # get_28(day)
     get_elements()

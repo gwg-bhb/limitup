@@ -1277,6 +1277,7 @@ angular.module('xeditable').factory('editableController',
           var val = valueGetter($scope.$parent);
           var isRed = false;
           if (val !== undefined) {
+              console.log(val);
             val = val.toString();
             isRed = val.indexOf('red') != -1
           }
