@@ -160,8 +160,8 @@ def get_elements():
     pre_today = get_pro_trading_day(today)
     element1 = datetime.now().strftime('%m/%d')
     element2 = datetime.now().strftime('%m') + "月" + datetime.now().strftime('%d') + "日"
-    
-    elements_list.extend([element1, element2])
+
+    elements_list.extend([today, element1, element2])
     month = str(datetime.now().timetuple().tm_mon)
     day = str(datetime.now().timetuple().tm_mday)
     day = datetime.now().strftime('%Y-%m-%d')
@@ -202,6 +202,17 @@ def get_elements():
                           element_20,element_21,element_22,element_23,element_24,element_25,element_26,element_27,element_28])
 
     return elements_list
+
+def save_element():
+    element_list = get_elements()
+    sql_inset_daily_28 = "insert into daily_28(date, element1, element2, element3, element4, element5, element6, element7, element8, element9, element10, element11, element12, element13, element14, \
+                        element15, element16, element17, element18, element19, element20, element21, element22, element23, element24, element25, element26, element27, element28) VALUES( \
+                        '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');" \
+            %(element_list[0], element_list[1], element_list[2], element_list[3],element_list[4], element_list[5], element_list[6], element_list[7],\
+              element_list[8], element_list[9], element_list[10], element_list[11],element_list[12], element_list[13], element_list[14], element_list[15], \
+              element_list[16], element_list[17], element_list[18], element_list[19], element_list[20], element_list[21], element_list[22], element_list[23], \
+              element_list[24], element_list[25], element_list[26], element_list[27], element_list[28]);
+    pd.read_sql(sql_inset_daily_28, mysql_engine)
 
 def get_last_trading_day(year, month):
     # tm = pd.Timestamp(year=i.year, month=i.month, day=i.day)
@@ -362,6 +373,7 @@ def get_today_code_info(day, code):
 if __name__ == '__main__':
     day = '2019-04-04'
     code = '603637'
-    dict = get_today_code_info(day, code)
+    # dict = get_today_code_info(day, code)
     # get_28(day)
+    save_element()
     get_elements()
