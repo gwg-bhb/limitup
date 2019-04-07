@@ -349,18 +349,19 @@ def time2str(tradeTime):
 def get_today_code_info(day, code):
     #根据股票代码，返回股票名称，打板时间，第几版
     sql = "select name from `%s` where code = '%s' limit 1;" %(day, code)
-    code_name = pd.read_sql(sql, mysql_engine)
+    tmp = pd.read_sql(sql, mysql_engine)
+    code_name = tmp['name'][0]
     #打板时间和第几版
     sql = "select time_raiselimit,num_raiselimit from daily_result_detail where date = '%s' and code = '%s';" % (day, code)
     tmp = pd.read_sql(sql, mysql_engine)
     time_raiselimit = tmp['time_raiselimit'].values[0]
     num_raiselimit = tmp['num_raiselimit'].values[0]
-    return [code_name, time_raiselimit, num_raiselimit]
+    return {'code':code, 'name':code_name, 'time':time_raiselimit, 'frequency':num_raiselimit}
 
 
 if __name__ == '__main__':
     day = '2019-04-04'
     code = '603637'
-    get_today_code_info(day, code)
+    dict = get_today_code_info(day, code)
     # get_28(day)
     get_elements()
