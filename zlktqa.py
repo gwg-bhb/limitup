@@ -5,8 +5,8 @@ import config
 from exts import db
 from models import DailyResult
 from decorator import login_required
-from tools import get_elements, getTodayCodeInfo
-import os
+from tools import get_elements, get_today_code_info
+import os, json
 from datetime import datetime
 
 from flask_uploads import UploadSet, IMAGES
@@ -78,7 +78,8 @@ def login_required(func):
 
 @app.route('/')
 def index():
-    element_list = get_elements()
+    # element_list = get_elements()
+    element_list = []
     img_url = None
     if request.method == 'POST' and 'photo' in request.files:
         # 生成随机的文件名
@@ -93,10 +94,11 @@ def index():
 @app.route('/getTodayCodeInfo')
 def getTodayCodeInfo():
     day = datetime.now().strftime("%Y-%m-%d")
+    day = '2019-04-04'
     code = request.args.get('code')
-    result = getTodayCodeInfo(day, code)
-    return result
-
+    result = get_today_code_info(day, code)
+    result_json = json.dumps(result)
+    return result_json
 
 
 # before_request -> 视图函数 -> context_processor

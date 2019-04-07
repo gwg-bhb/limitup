@@ -62,17 +62,13 @@ app.controller('Ctrl', function($scope, $filter, $q, $http) {
     $scope.generateInfo = function() {
         console.log('查询的代码是');
         console.log($scope.TableCode);
-        //$http.get("/getTodayCodeInfo", $scope.TableCode)
-        //    .then(function (response) {$scope.names = response.records;});
-
-        //$scope.users.push({
-        //    id: $scope.users.length+1,
-        //    code:code
-        //    name: '',
-        //    time: null,
-        //    frequency: null,
-        //    concept: true
-        //});
+        $http.get("/getTodayCodeInfo", {
+            params: {code:$scope.TableCode}
+        }).then(function (response) {
+                $scope.newInfo = response;
+                $scope.newInfo['id'] = $scope.users.length+1;
+                $scope.users.push(response);
+            });
     };
     // cancel all changes
     $scope.cancel = function() {
