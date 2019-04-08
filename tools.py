@@ -144,7 +144,7 @@ def get_elements_28():
     df = pd.read_sql(selectSql, mysql_engine)
     if not df.empty:
         df['trade_date'] = df['trade_date'] .apply(lambda x: x.strftime('%Y-%m-%d'))
-        elements_list = df.iloc[[0]].values[0].tolist()
+        elements_list = df.iloc[[0]].values[0].tolist()[1:]
     return elements_list
 
 
