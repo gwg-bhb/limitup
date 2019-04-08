@@ -72,14 +72,12 @@ def login_required(func):
     @wraps(func)
     def wrappers(*args, **kwargs):
         pass
-
     return wrappers
 
 
 @app.route('/')
 def index():
-    # element_list = get_elements()
-    element_list = []
+    element_list = get_elements()
     img_url = None
     if request.method == 'POST' and 'photo' in request.files:
         # 生成随机的文件名
@@ -97,7 +95,8 @@ def getTodayCodeInfo():
     day = '2019-04-04'
     code = request.args.get('code')
     result = get_today_code_info(day, code)
-    result_json = json.dumps(result)
+    result['name'] = result['name'][1:]
+    result_json = json.dumps(result, ensure_ascii=False)
     return result_json
 
 
