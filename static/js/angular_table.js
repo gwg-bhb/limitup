@@ -65,7 +65,7 @@ app.controller('Ctrl', function($scope, $filter, $q, $http) {
         var settings = {
           "async": true,
           "crossDomain": true,
-          "url": "http://127.0.0.1:5000/getTodayCodeInfo?code="+$scope.TableCode ,
+          "url": "http://0.0.0.0:5000/getTodayCodeInfo?code="+$scope.TableCode ,
           "method": "GET",
           "data": ""
      }
