@@ -92,7 +92,6 @@ def index():
 @app.route('/getTodayCodeInfo')
 def getTodayCodeInfo():
     day = datetime.now().strftime("%Y-%m-%d")
-    day = '2019-04-04'
     code = request.args.get('code')
     result = get_today_code_info(day, code)
     result['name'] = result['name'][1:]

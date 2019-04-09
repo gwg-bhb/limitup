@@ -139,7 +139,7 @@ def get_28(day):
 
 def get_elements_28():
     elements_list = []
-    day = '2019-04-04'
+    day = datetime.now().strftime("%Y-%m-%d")
     selectSql = "SELECT *from daily_28 where trade_date = '%s';" %(day)
     df = pd.read_sql(selectSql, mysql_engine)
     if not df.empty:
