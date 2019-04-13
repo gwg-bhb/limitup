@@ -61,20 +61,24 @@ app.controller('Ctrl', function($scope, $filter, $q, $http) {
     // add user
     $scope.generateInfo = function() {
         console.log('查询的代码是');
-        console.log($scope.TableCode);
-        $http.get("/getTodayCodeInfo", {
-            params: {code:$scope.TableCode}
-        }).then(function (response) {
-                $scope.newInfo = response;
-                $scope.newInfo['id'] = $scope.users.length+1;
-                $scope.users.push(response);
-            });
+        console.log();
+        var settings = {
+          "async": true,
+          "crossDomain": true,
+          "url": "http://123.57.81.203:5000/getTodayCodeInfo?code="+$scope.TableCode ,
+          "method": "GET",
+          "data": ""
+     }
+        $.ajax(settings).done(function (response) {
+            responseJson = eval('(' + response + ')');
+            responseJson['id'] = $scope.users.length + 1;
+            $scope.users.push(responseJson);
+        });
     };
     // cancel all changes
     $scope.cancel = function() {
     for (var i = $scope.users.length; i--;) {
       var user = $scope.users[i];
-      // undelete
       if (user.isDeleted) {
         delete user.isDeleted;
       }
@@ -97,7 +101,6 @@ app.controller('Ctrl', function($scope, $filter, $q, $http) {
       if (user.isNew) {
         user.isNew = false;
       }
-
       // send on server
         console.log(user);
       results.push($http.post('/saveUser', user));

@@ -5,7 +5,7 @@ import config
 from exts import db
 from models import DailyResult
 from decorator import login_required
-from tools import get_elements, get_today_code_info
+from tools import get_elements_28, get_today_code_info
 import os, json
 from datetime import datetime
 
@@ -72,14 +72,12 @@ def login_required(func):
     @wraps(func)
     def wrappers(*args, **kwargs):
         pass
-
     return wrappers
 
 
 @app.route('/')
 def index():
-    # element_list = get_elements()
-    element_list = []
+    element_list = get_elements_28()
     img_url = None
     if request.method == 'POST' and 'photo' in request.files:
         # 生成随机的文件名
@@ -94,13 +92,13 @@ def index():
 @app.route('/getTodayCodeInfo')
 def getTodayCodeInfo():
     day = datetime.now().strftime("%Y-%m-%d")
-    day = '2019-04-04'
     code = request.args.get('code')
     result = get_today_code_info(day, code)
-    result_json = json.dumps(result)
+    result['name'] = result['name'][1:]
+    result_json = json.dumps(result, ensure_ascii=False)
     return result_json
 
 
 # before_request -> 视图函数 -> context_processor
 if __name__ == '__main__':
-    app.run(port=5000)
+    app.run(host='0.0.0.0',port=5000)
