@@ -94,9 +94,147 @@
     <p style="color:grey">__________________________________________________________________</p>
       <p contenteditable="true" style="border-style: solid; border-color: red">这是一段可编辑的文字</p>
       <p style="color:grey">__________________________________________________________________</p>
-        {%raw%}
+      {%raw%}
       <div ng-app="app" ng-controller="Ctrl">
-          <form editable-form name="tableform" onaftersave="saveTable()" oncancel="cancel()">
+          <form editable-form name="oneForm" onaftersave="saveTable()" oncancel="cancel()">
+
+              <!-- table -->
+              <table class="table table-bordered table-hover table-condensed">
+                  <tr style="font-weight: bold">
+                      <td colspan="1" style="color: red">
+                          {{timeString}}
+                      </td>
+                      <td colspan="4" align="center">非一字连板股票池</td>
+                  </tr>
+                  <tr style="font-weight: bold">
+                      <td style="width:20%">股票代码</td>
+                      <td style="width:20%">股票名称</td>
+                      <td style="width:20%">打板时间</td>
+                      <td style="width:20%">第几板</td>
+                      <td style="width:20%">涨停属性</td>
+                      <td style="width:10%"><span ng-show="oneForm.$visible">Action</span></td>
+                  </tr>
+                  <tr ng-repeat="user in users | filter:filterUser">
+                      <td>
+                          <!-- editable username (text with validation) -->
+                        <span editable-text="user.code" e-form="oneForm">
+                          {{ user.code }}
+                        </span>
+                      </td>
+                      <td>
+                          <!-- editable username (text with validation) -->
+                        <span editable-text="user.name" e-form="oneForm" onbeforesave="checkName($data, user.id)">
+                          {{ showName(user) }}
+                        </span>
+                      </td>
+                      <td>
+                                  <!-- editable status (select-local) -->
+                        <span editable-text="user.time" e-form="oneForm">
+                          {{ showTime(user) }}
+                        </span>
+                      </td>
+                      <td>
+                                  <!-- editable group (select-remote) -->
+                        <span editable-text="user.frequency" e-form="oneForm" >
+                          {{ showFrequency(user) }}
+                        </span>
+                      </td>
+                      <td>
+                          <!-- editable group (select-remote) -->
+                        <span editable-text="user.concept" e-form="oneForm" >
+                          {{ showConcept(user) }}
+                        </span>
+                      </td>
+                      <td><button type="button" ng-show="oneForm.$visible" ng-click="deleteUser(user.id)" class="btn btn-danger pull-right">删除</button></td>
+                  </tr>
+
+              </table>
+
+              <!-- buttons -->
+              <div class="btn-edit">
+                  <button type="button" class="btn btn-default" ng-show="!oneForm.$visible" ng-click="oneForm.$show()">
+                      edit
+                  </button>
+              </div>
+              <div class="btn-form" ng-show="oneForm.$visible">
+                  <button type="submit" ng-disabled="oneForm.$waiting" class="btn btn-primary">save</button>
+                  <button type="button" ng-disabled="oneForm.$waiting" ng-click="oneForm.$cancel()" class="btn btn-default">cancel</button>
+                  <p>股票代码:<br>
+                  <input ng-model="TableCode" required>
+                  <button type="button" ng-disabled="oneForm.$waiting" ng-click="generateInfo()" class="btn btn-default pull-right">生成数据</button>
+              </div>
+
+          </form>
+          <form editable-form name="redianForm" onaftersave="saveTable()" oncancel="cancel()">
+
+              <!-- table -->
+              <table class="table table-bordered table-hover table-condensed">
+                  <tr style="font-weight: bold">
+                      <td colspan="1" style="color: red">
+                          {{timeString}}
+                      </td>
+                      <td colspan="4" align="center">热点板块模块</td>
+                  </tr>
+                  <tr style="font-weight: bold">
+                      <td style="width:20%">股票代码</td>
+                      <td style="width:20%">股票名称</td>
+                      <td style="width:20%">打板时间</td>
+                      <td style="width:20%">第几板</td>
+                      <td style="width:20%">是否开板</td>
+                      <td style="width:10%"><span ng-show="redianForm.$visible">Action</span></td>
+                  </tr>
+                  <tr ng-repeat="user in users | filter:filterUser">
+                      <td>
+                          <!-- editable username (text with validation) -->
+                        <span editable-text="user.code" e-form="redianForm">
+                          {{ user.code }}
+                        </span>
+                      </td>
+                      <td>
+                          <!-- editable username (text with validation) -->
+                        <span editable-text="user.name" e-form="redianForm" onbeforesave="checkName($data, user.id)">
+                          {{ showName(user) }}
+                        </span>
+                      </td>
+                      <td>
+                                  <!-- editable status (select-local) -->
+                        <span editable-text="user.time" e-form="redianForm">
+                          {{ showTime(user) }}
+                        </span>
+                      </td>
+                      <td>
+                                  <!-- editable group (select-remote) -->
+                        <span editable-text="user.frequency" e-form="redianForm" >
+                          {{ showFrequency(user) }}
+                        </span>
+                      </td>
+                      <td>
+                          <!-- editable group (select-remote) -->
+                        <span editable-text="user.concept" e-form="redianForm" >
+                          {{ showConcept(user) }}
+                        </span>
+                      </td>
+                      <td><button type="button" ng-show="redianForm.$visible" ng-click="deleteUser(user.id)" class="btn btn-danger pull-right">删除</button></td>
+                  </tr>
+
+              </table>
+
+              <!-- buttons -->
+              <div class="btn-edit">
+                  <button type="button" class="btn btn-default" ng-show="!redianForm.$visible" ng-click="redianForm.$show()">
+                      edit
+                  </button>
+              </div>
+              <div class="btn-form" ng-show="redianForm.$visible">
+                  <button type="submit" ng-disabled="redianForm.$waiting" class="btn btn-primary">save</button>
+                  <button type="button" ng-disabled="redianForm.$waiting" ng-click="redianForm.$cancel()" class="btn btn-default">cancel</button>
+                  <p>股票代码:<br>
+                  <input ng-model="TableCode" required>
+                  <button type="button" ng-disabled="redianForm.$waiting" ng-click="generateInfo()" class="btn btn-default pull-right">生成数据</button>
+              </div>
+
+          </form>
+          <form editable-form name="otherForm" onaftersave="saveTable()" oncancel="cancel()">
 
               <!-- table -->
               <table class="table table-bordered table-hover table-condensed">
@@ -112,56 +250,118 @@
                       <td style="width:20%">打板时间</td>
                       <td style="width:20%">第几板</td>
                       <td style="width:20%">概念</td>
-                      <td style="width:10%"><span ng-show="tableform.$visible">Action</span></td>
+                      <td style="width:10%"><span ng-show="otherForm.$visible">Action</span></td>
                   </tr>
                   <tr ng-repeat="user in users | filter:filterUser">
                       <td>
                           <!-- editable username (text with validation) -->
-                        <span editable-text="user.code" e-form="tableform">
+                        <span editable-text="user.code" e-form="redianForm">
                           {{ user.code }}
                         </span>
                       </td>
                       <td>
                           <!-- editable username (text with validation) -->
-                        <span editable-text="user.name" e-form="tableform" onbeforesave="checkName($data, user.id)">
+                        <span editable-text="user.name" e-form="redianForm" onbeforesave="checkName($data, user.id)">
                           {{ showName(user) }}
                         </span>
                       </td>
                       <td>
                                   <!-- editable status (select-local) -->
-                        <span editable-text="user.time" e-form="tableform">
+                        <span editable-text="user.time" e-form="redianForm">
                           {{ showTime(user) }}
                         </span>
                       </td>
                       <td>
                                   <!-- editable group (select-remote) -->
-                        <span editable-text="user.frequency" e-form="tableform" >
+                        <span editable-text="user.frequency" e-form="redianForm" >
                           {{ showFrequency(user) }}
                         </span>
                       </td>
                       <td>
                           <!-- editable group (select-remote) -->
-                        <span editable-text="user.concept" e-form="tableform" >
+                        <span editable-text="user.concept" e-form="redianForm" >
                           {{ showConcept(user) }}
                         </span>
                       </td>
-                      <td><button type="button" ng-show="tableform.$visible" ng-click="deleteUser(user.id)" class="btn btn-danger pull-right">删除</button></td>
+                      <td><button type="button" ng-show="redianForm.$visible" ng-click="deleteUser(user.id)" class="btn btn-danger pull-right">删除</button></td>
                   </tr>
 
               </table>
 
               <!-- buttons -->
               <div class="btn-edit">
-                  <button type="button" class="btn btn-default" ng-show="!tableform.$visible" ng-click="tableform.$show()">
+                  <button type="button" class="btn btn-default" ng-show="!redianForm.$visible" ng-click="redianForm.$show()">
                       edit
                   </button>
               </div>
-              <div class="btn-form" ng-show="tableform.$visible">
-                  <button type="submit" ng-disabled="tableform.$waiting" class="btn btn-primary">save</button>
-                  <button type="button" ng-disabled="tableform.$waiting" ng-click="tableform.$cancel()" class="btn btn-default">cancel</button>
+              <div class="btn-form" ng-show="redianForm.$visible">
+                  <button type="submit" ng-disabled="redianForm.$waiting" class="btn btn-primary">save</button>
+                  <button type="button" ng-disabled="redianForm.$waiting" ng-click="redianForm.$cancel()" class="btn btn-default">cancel</button>
                   <p>股票代码:<br>
                   <input ng-model="TableCode" required>
-                  <button type="button" ng-disabled="tableform.$waiting" ng-click="generateInfo()" class="btn btn-default pull-right">生成数据</button>
+                  <button type="button" ng-disabled="redianForm.$waiting" ng-click="generateInfo()" class="btn btn-default pull-right">生成数据</button>
+              </div>
+
+          </form>
+          <form editable-form name="notlimitForm" onaftersave="saveTable()" oncancel="cancel()">
+
+              <!-- table -->
+              <table class="table table-bordered table-hover table-condensed">
+                  <tr style="font-weight: bold">
+                      <td colspan="1" style="color: red">
+                          {{timeString}}
+                      </td>
+                      <td colspan="4" align="center">涨停被砸股票池</td>
+                  </tr>
+                  <tr style="font-weight: bold">
+                      <td style="width:20%">股票代码</td>
+                      <td style="width:20%">股票名称</td>
+                      <td style="width:20%">涨幅%</td>
+                      <td style="width:20%">概念</td>
+                      <td style="width:10%"><span ng-show="notlimitForm.$visible">Action</span></td>
+                  </tr>
+                  <tr ng-repeat="user in users | filter:filterUser">
+                      <td>
+                          <!-- editable username (text with validation) -->
+                        <span editable-text="user.code" e-form="notlimitForm">
+                          {{ user.code }}
+                        </span>
+                      </td>
+                      <td>
+                          <!-- editable username (text with validation) -->
+                        <span editable-text="user.name" e-form="notlimitForm" onbeforesave="checkName($data, user.id)">
+                          {{ showName(user) }}
+                        </span>
+                      </td>
+                      <td>
+                                  <!-- editable status (select-local) -->
+                        <span editable-text="user.chg" e-form="notlimitForm">
+                          {{ showTime(user) }}
+                        </span>
+                      </td>
+                      <td>
+                          <!-- editable group (select-remote) -->
+                        <span editable-text="user.concept" e-form="notlimitForm" >
+                          {{ showConcept(user) }}
+                        </span>
+                      </td>
+                      <td><button type="button" ng-show="notlimitForm.$visible" ng-click="deleteUser(user.id)" class="btn btn-danger pull-right">删除</button></td>
+                  </tr>
+
+              </table>
+
+              <!-- buttons -->
+              <div class="btn-edit">
+                  <button type="button" class="btn btn-default" ng-show="!notlimitForm.$visible" ng-click="notlimitForm.$show()">
+                      edit
+                  </button>
+              </div>
+              <div class="btn-form" ng-show="notlimitForm.$visible">
+                  <button type="submit" ng-disabled="notlimitForm.$waiting" class="btn btn-primary">save</button>
+                  <button type="button" ng-disabled="notlimitForm.$waiting" ng-click="notlimitForm.$cancel()" class="btn btn-default">cancel</button>
+                  <p>股票代码:<br>
+                  <input ng-model="TableCode" required>
+                  <button type="button" ng-disabled="notlimitForm.$waiting" ng-click="generateInfo()" class="btn btn-default pull-right">生成数据</button>
               </div>
 
           </form>
