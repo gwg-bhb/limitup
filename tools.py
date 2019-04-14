@@ -312,11 +312,14 @@ def get_become_worse(day):
     for i, row in tmp.iterrows():
         this_code_today_info = get_code_info(0, row['code'], day)
         tmp_code = row['code']
-        tmp_name = this_code_today_info['name'][0]
+        tmp_name = this_code_today_info['name'].values[0]
+        if '\"' in tmp_name:
+            tmp_name = tmp_name[1:]
         tmp_chg = (row['close_price'] - this_code_today_info['yst_close'].values[0])/this_code_today_info['yst_close'].values[0]
-        tmp_dict = {'code':tmp_code, 'name':tmp_name, 'chg':tmp_chg}
-        print(tmp_code, '======', tmp_name, '=====', tmp_chg)
+        tmp_chg = '%.2f' % (tmp_chg*100)
+        tmp_dict = {'code':tmp_code, 'name':tmp_name, 'chg':str(tmp_chg)+'%'}
         result_info.append(tmp_dict)
+    print(result_info)
 
     return result_info
 
