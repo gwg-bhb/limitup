@@ -98,6 +98,11 @@ def getTodayCodeInfo():
     result_json = json.dumps(result, ensure_ascii=False)
     return result_json
 
+@app.route('/getBecomeWorse')
+def getBocomeWorse():
+    worseCodes = []
+    return worseCodes
+
 
 # before_request -> 视图函数 -> context_processor
 if __name__ == '__main__':
