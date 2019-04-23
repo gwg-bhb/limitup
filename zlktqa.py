@@ -93,6 +93,7 @@ def index():
     worseCodes_json = json.dumps(worseCodes, ensure_ascii=False)
     return render_template('limit_up.html', element_list=element_list, ztbz_list=worseCodes_json, img_url=img_url)
 
+
 @app.route('/getTodayCodeInfo')
 def getTodayCodeInfo():
     day = datetime.now().strftime("%Y-%m-%d")
@@ -105,4 +106,4 @@ def getTodayCodeInfo():
 
 # before_request -> 视图函数 -> context_processor
 if __name__ == '__main__':
-    app.run(host='127.0.0.1',port=5000)
+    app.run(host='0.0.0.0', port=5000)
