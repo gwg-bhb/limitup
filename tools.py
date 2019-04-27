@@ -305,22 +305,18 @@ def get_today_code_info(day, code):
 
 def get_become_worse(day):
     #从 result表中获取闭盘价不是涨停的股票信息
-    sql = "select * from daily_result_detail where date = '%s' and close_is_raiselimit = 0;" %(day)
+    sql = "select * from become_worse where trade_date = '%s';" %(day)
     tmp = pd.read_sql(sql, mysql_engine)
     result_info = []
 
     for i, row in tmp.iterrows():
-        this_code_today_info = get_code_info(0, row['code'], day)
-        tmp_code = row['code']
-        tmp_name = this_code_today_info['name'][0]
-        tmp_chg = (row['close_price'] - this_code_today_info['yst_close'].values[0])/this_code_today_info['yst_close'].values[0]
-        tmp_dict = {'code':tmp_code, 'name':tmp_name, 'chg':tmp_chg}
-        print(tmp_code, '======', tmp_name, '=====', tmp_chg)
+        tmp_dict = {'name':row['code_name'], 'chg':row['chg'], "first_limitup":row['first_limitup']}
+        print(row['code_name'], '=====', row['chg'], "=====", row['first_limitup'])
         result_info.append(tmp_dict)
 
     return result_info
 
 
 if __name__ == '__main__':
-    day = '2019-04-11'
+    day = '2019-04-26'
     get_become_worse(day)
