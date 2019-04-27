@@ -5,7 +5,7 @@ import config
 from exts import db
 from models import DailyResult
 from decorator import login_required
-from tools import get_elements_28, get_today_code_info
+from tools import get_elements_28, get_today_code_info, get_become_worse
 import os, json
 from datetime import datetime
 
@@ -87,7 +87,12 @@ def index():
         photos.save(request.files['photo'], name=filename)
         # 获取上传图片的URL
         img_url = photos.url(filename)
-    return render_template('limit_up.html', element_list=element_list, img_url=img_url)
+    # day = '2019-04-11'
+    day = datetime.now().strftime("%Y-%m-%d")
+    worseCodes = get_become_worse(day)
+    worseCodes_json = json.dumps(worseCodes, ensure_ascii=False)
+    return render_template('limit_up.html', element_list=element_list, ztbz_list=worseCodes_json, img_url=img_url)
+
 
 @app.route('/getTodayCodeInfo')
 def getTodayCodeInfo():
@@ -101,4 +106,4 @@ def getTodayCodeInfo():
 
 # before_request -> 视图函数 -> context_processor
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=5000)
+    app.run(host='0.0.0.0', port=5000)
