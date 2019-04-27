@@ -313,9 +313,8 @@ def get_become_worse(day):
         tmp_dict = {'name':row['code_name'], 'chg':row['chg'], "first_limitup":row['first_limitup']}
         print(row['code_name'], '=====', row['chg'], "=====", row['first_limitup'])
         result_info.append(tmp_dict)
-
+    print(result_info)
     return result_info
-
 
 if __name__ == '__main__':
     day = '2019-04-26'
