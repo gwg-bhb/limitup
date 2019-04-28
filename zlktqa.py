@@ -77,7 +77,9 @@ def login_required(func):
 
 @app.route('/')
 def index():
-    element_list = get_elements_28()
+    day = datetime.now().strftime("%Y-%m-%d")
+    # day = '2019-04-26'
+    element_list = get_elements_28(day)
     img_url = None
     if request.method == 'POST' and 'photo' in request.files:
         # 生成随机的文件名
@@ -87,11 +89,10 @@ def index():
         photos.save(request.files['photo'], name=filename)
         # 获取上传图片的URL
         img_url = photos.url(filename)
-    day = '2019-04-26'
-    day = datetime.now().strftime("%Y-%m-%d")
     worseCodes = get_become_worse(day)
+    ztbz_num = len(worseCodes)
     worseCodes_json = json.dumps(worseCodes, ensure_ascii=False)
-    return render_template('limit_up.html', element_list=element_list, ztbz_list=worseCodes_json, img_url=img_url)
+    return render_template('limit_up.html', element_list=element_list, ztbz_list=worseCodes_json, ztbz_num=ztbz_num,img_url=img_url)
 
 
 @app.route('/getTodayCodeInfo')
@@ -106,4 +107,4 @@ def getTodayCodeInfo():
 
 # before_request -> 视图函数 -> context_processor
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=5000)
+    app.run(host='0.0.0.0', port=5000)
