@@ -96,6 +96,18 @@
     <p style="color:grey">__________________________________________________________________</p>
       <p contenteditable="true" style="border-style: solid; border-color: red">这是一段可编辑的文字</p>
       <p style="color:grey">__________________________________________________________________</p>
+        <div>
+            <div ng-controller="UploadController ">
+                <form>
+                  <input type="file" ng-file-select="onFileSelect($files)" ng-model="imageSrc">
+                  <!--  <input type="file" ng-file-select="onFileSelect($files)" multiple> -->
+                </form>
+
+                <img ng-src="{{imageSrc}}" />
+
+            </div>
+        </div>
+      <p style="color:grey">__________________________________________________________________</p>
       {%raw%}
       <div ng-controller="CtrlOne">
           <form editable-form name="oneForm" onaftersave="saveTable()" oncancel="cancel()">
@@ -233,7 +245,7 @@
                   <button type="submit" ng-disabled="redianForm.$waiting" class="btn btn-primary">save</button>
                   <button type="button" ng-disabled="redianForm.$waiting" ng-click="redianForm.$cancel()" class="btn btn-default">cancel</button>
                   <p>股票代码:<br>
-                  <input ng-model="TableCode" required>
+                  <input ng-model="TableCode">
                   <button type="button" ng-disabled="redianForm.$waiting" ng-click="generateInfo()" class="btn btn-default pull-right">生成数据</button>
               </div>
 
@@ -304,7 +316,7 @@
                   <button type="submit" ng-disabled="otherForm.$waiting" class="btn btn-primary">save</button>
                   <button type="button" ng-disabled="otherForm.$waiting" ng-click="otherForm.$cancel()" class="btn btn-default">cancel</button>
                   <p>股票代码:<br>
-                  <input ng-model="TableCode" required>
+                  <input ng-model="TableCode" >
                   <button type="button" ng-disabled="otherForm.$waiting" ng-click="generateInfo()" class="btn btn-default pull-right">生成数据</button>
               </div>
 
@@ -368,7 +380,7 @@
                   <button type="submit" ng-disabled="ztbzForm.$waiting" class="btn btn-primary">save</button>
                   <button type="button" ng-disabled="ztbzForm.$waiting" ng-click="ztbzForm.$cancel()" class="btn btn-default">cancel</button>
                   <p>股票代码:<br>
-                  <input ng-model="TableCode" required>
+                  <input ng-model="TableCode" >
                   <button type="button" ng-disabled="ztbzForm.$waiting" ng-click="generateInfo()" class="btn btn-default pull-right">生成数据</button>
 
               </div>

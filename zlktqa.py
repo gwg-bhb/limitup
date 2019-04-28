@@ -87,7 +87,7 @@ def index():
         photos.save(request.files['photo'], name=filename)
         # 获取上传图片的URL
         img_url = photos.url(filename)
-    # day = '2019-04-11'
+    day = '2019-04-26'
     day = datetime.now().strftime("%Y-%m-%d")
     worseCodes = get_become_worse(day)
     worseCodes_json = json.dumps(worseCodes, ensure_ascii=False)
@@ -106,4 +106,4 @@ def getTodayCodeInfo():
 
 # before_request -> 视图函数 -> context_processor
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='127.0.0.1', port=5000)
