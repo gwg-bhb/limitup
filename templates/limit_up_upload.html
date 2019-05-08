@@ -17,8 +17,6 @@
     <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]    注意js文件的前后顺序 因为涉及到引用-->
     <script type="text/javascript" > var ztbz_list = '{{ztbz_list| safe}}' </script>
-    <script type="text/javascript" > var ztbz_num = '{{ztbz_num | safe}}'; </script>
-
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../static/js/bootstrap.js"></script>
@@ -97,6 +95,18 @@
     <p style="margin:12px 0; font-size:20px">打板次日成功率<font face="宋体" size="6" color="red">{{element_list[27]}}</font></p>
     <p style="color:grey">__________________________________________________________________</p>
       <p contenteditable="true" style="border-style: solid; border-color: red">这是一段可编辑的文字</p>
+      <p style="color:grey">__________________________________________________________________</p>
+        <div>
+            <div ng-controller="UploadController ">
+                <form>
+                  <input type="file" ng-file-select="onFileSelect($files)" ng-model="imageSrc">
+                  <!--  <input type="file" ng-file-select="onFileSelect($files)" multiple> -->
+                </form>
+
+                <img ng-src="{{imageSrc}}" />
+
+            </div>
+        </div>
       <p style="color:grey">__________________________________________________________________</p>
       {%raw%}
       <div ng-controller="CtrlOne">
@@ -321,7 +331,7 @@
                       <td colspan="1" style="color: red">
                           {{timeString}}
                       </td>
-                      <td colspan="4" align="center">{{title}}</td>
+                      <td colspan="4" align="center">涨停被砸股票池</td>
                   </tr>
                   <tr style="font-weight: bold">
                       <td style="width:20%">股票名称</td>

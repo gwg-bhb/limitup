@@ -302,9 +302,10 @@ app.controller('CtrlOther', function($scope, $filter, $q, $http) {
     };
 });
 app.controller('CtrlZtbz', function($scope, $filter, $q, $http) {
-//    console.log(ztbz_list);
+    console.log(ztbz_num);
     $scope.today = new  Date();
     $scope.timeString = $filter('date')($scope.today, 'yyyy-MM-dd');
+    $scope.title = "涨停被砸股票池 (" + ztbz_num + ")";
     $scope.count = 0;
     $scope.users = JSON.parse(ztbz_list);
     $scope.showChg = function(user) {
@@ -390,6 +391,9 @@ app.controller('CtrlZtbz', function($scope, $filter, $q, $http) {
         }
         return $q.all(results);
     };
+});
+app.controller('UploadController', function($scope, $filter, $q, $http) {
+
 });
  //------------ mock $http requests ---------------------
 app.run(function($httpBackend) {

@@ -137,9 +137,8 @@ def get_28(day):
     return success_rate
 
 
-def get_elements_28():
+def get_elements_28(day):
     elements_list = []
-    day = datetime.now().strftime("%Y-%m-%d")
     selectSql = "SELECT *from daily_28 where trade_date = '%s';" %(day)
     df = pd.read_sql(selectSql, mysql_engine)
     if not df.empty:
@@ -307,6 +306,7 @@ def get_become_worse(day):
     #从 result表中获取闭盘价不是涨停的股票信息
     sql = "select * from become_worse where trade_date = '%s';" %(day)
     tmp = pd.read_sql(sql, mysql_engine)
+    tmp['chg'] = tmp['chg'].apply(lambda x: "%.2f" % (100*float(x)))
     result_info = []
 
     for i, row in tmp.iterrows():
@@ -317,5 +317,5 @@ def get_become_worse(day):
     return result_info
 
 if __name__ == '__main__':
-    day = '2019-04-26'
+    day = '2019-04-28'
     get_become_worse(day)
